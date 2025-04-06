@@ -2,6 +2,10 @@
 
 A modern web application for calculating mortgage payments and comparing buying vs renting costs in Italy.
 
+## Live Demo
+
+🌐 [Try CalcolaMutuo Now](https://ghanjou.github.io/calcolo-mutuo/)
+
 ## Features
 
 - **Simple Mortgage Calculator**: Calculate monthly payments, total interest, and purchase expenses
@@ -16,25 +20,7 @@ A modern web application for calculating mortgage payments and comparing buying 
 - JavaScript
 - Chart.js
 
-## Live Demo
-
-[Add your GitHub Pages URL here once deployed]
-
-## Setup
-
-1. Clone the repository:
-```bash
-git clone [your-repository-url]
-```
-
-2. Open the project folder:
-```bash
-cd Calcolo Mutuo
-```
-
-3. Open `index.html` in your web browser to start using the application.
-
-## Usage
+## How to Use
 
 1. **Simple Mortgage Calculator**:
    - Enter the total property cost
@@ -49,6 +35,20 @@ cd Calcolo Mutuo
    - Enter current rent and expected annual increase
    - Add recurring expenses for both scenarios
    - Click "Calcola Confronto" to see detailed comparison
+
+## Local Development
+
+1. Clone the repository:
+```bash
+git clone https://github.com/Ghanjou/calcolo-mutuo.git
+```
+
+2. Open the project folder:
+```bash
+cd calcolo-mutuo
+```
+
+3. Open `index.html` in your web browser to start using the application.
 
 ## Contributing
 
