@@ -3,6 +3,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const risultati = document.getElementById('risultati');
     let costsChart = null;
 
+    // Add button click handler to load mortgage data
+    const caricaDatiMutuo = document.getElementById('caricaDatiMutuo');
+    if (caricaDatiMutuo) {
+        caricaDatiMutuo.addEventListener('click', function() {
+            const savedData = localStorage.getItem('mutuoData');
+            if (savedData) {
+                const mutuoData = JSON.parse(savedData);
+                
+                // Check if data is from today
+                const savedDate = new Date(mutuoData.timestamp);
+                const now = new Date();
+                const isToday = savedDate.toDateString() === now.toDateString();
+                
+                if (isToday) {
+                    // Load the saved data into the form
+                    document.getElementById('costoTotale').value = mutuoData.costoTotale;
+                    document.getElementById('percentualeMutuo').value = mutuoData.percentualeMutuo;
+                    document.getElementById('tassoInteresse').value = mutuoData.tassoInteresse;
+                    document.getElementById('durata').value = mutuoData.durata;
+                    document.getElementById('speseAcquisto').value = mutuoData.speseAcquisto;
+                    
+                    // Show success message
+                    alert('Dati caricati con successo dal calcolo mutuo precedente!');
+                } else {
+                    alert('I dati salvati non sono di oggi. Per sicurezza, inserisci nuovamente i dati del mutuo.');
+                }
+            } else {
+                alert('Nessun dato del mutuo trovato. Calcola prima il mutuo nella pagina "Calcola il tuo Mutuo".');
+            }
+        });
+    }
+
     function createCostsChart(years, buyingCosts, rentingCosts) {
         const ctx = document.getElementById('costsChart').getContext('2d');
         
@@ -283,35 +315,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (this.value < 0) this.value = 0;
             }
         });
-    });
-
-    // Add button click handler to load mortgage data
-    const caricaDatiMutuo = document.getElementById('caricaDatiMutuo');
-    caricaDatiMutuo.addEventListener('click', function() {
-        const savedData = localStorage.getItem('mutuoData');
-        if (savedData) {
-            const mutuoData = JSON.parse(savedData);
-            
-            // Check if data is from today
-            const savedDate = new Date(mutuoData.timestamp);
-            const now = new Date();
-            const isToday = savedDate.toDateString() === now.toDateString();
-            
-            if (isToday) {
-                // Load the saved data into the form
-                document.getElementById('costoTotale').value = mutuoData.costoTotale;
-                document.getElementById('percentualeMutuo').value = mutuoData.percentualeMutuo;
-                document.getElementById('tassoInteresse').value = mutuoData.tassoInteresse;
-                document.getElementById('durata').value = mutuoData.durata;
-                document.getElementById('speseAcquisto').value = mutuoData.speseAcquisto;
-                
-                // Show success message
-                alert('Dati caricati con successo dal calcolo mutuo precedente!');
-            } else {
-                alert('I dati salvati non sono di oggi. Per sicurezza, inserisci nuovamente i dati del mutuo.');
-            }
-        } else {
-            alert('Nessun dato del mutuo trovato. Calcola prima il mutuo nella pagina "Calcola il tuo Mutuo".');
-        }
     });
 }); 
