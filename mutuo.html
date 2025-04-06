@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcolaMutuo - Calcola il tuo Mutuo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <div class="bg-blue-600 text-white font-bold text-xl p-2 rounded-lg">CM</div>
+                        <span class="ml-2 text-xl font-semibold text-gray-800">CalcolaMutuo</span>
+                    </a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="mutuo.html" class="text-blue-600 hover:text-blue-700 px-3 py-2 rounded-md text-sm font-medium">Calcola Mutuo</a>
+                    <a href="confronto.html" class="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Confronto Affitto vs Acquisto</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-2xl font-bold text-center text-gray-800 mb-8">Calcola il tuo Mutuo</h1>
+            
+            <form id="mutuo-form" class="space-y-6">
+                <div class="form-group">
+                    <label for="costoTotale" class="block text-sm font-medium text-gray-700">Costo totale dell'immobile (€)</label>
+                    <input type="number" id="costoTotale" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="percentualeMutuo" class="block text-sm font-medium text-gray-700">Percentuale del mutuo (%)</label>
+                    <input type="number" id="percentualeMutuo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" min="0" max="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tassoInteresse" class="block text-sm font-medium text-gray-700">Tasso di interesse annuo (%)</label>
+                    <input type="number" id="tassoInteresse" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="durata" class="block text-sm font-medium text-gray-700">Durata del mutuo (anni)</label>
+                    <input type="number" id="durata" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" min="1" max="40" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="speseAcquisto" class="block text-sm font-medium text-gray-700">Spese di acquisto (tasse, notaio, ecc.) (%)</label>
+                    <input type="number" id="speseAcquisto" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value="10" min="0" max="100" required>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    Calcola Mutuo
+                </button>
+            </form>
+
+            <div id="risultati" class="mt-8 hidden">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Risultati del calcolo</h2>
+                <div class="bg-blue-50 p-4 rounded-lg space-y-2">
+                    <p class="text-gray-700">Importo totale del mutuo: <span id="importoTotale" class="font-bold"></span> €</p>
+                    <p class="text-gray-700">Rata mensile: <span id="rataMensile" class="font-bold"></span> €</p>
+                    <p class="text-gray-700">Totale interessi da pagare: <span id="totaleInteressi" class="font-bold"></span> €</p>
+                    <p class="text-gray-700">Spese di acquisto: <span id="totaleSpese" class="font-bold"></span> €</p>
+                    <div class="border-t border-blue-200 mt-4 pt-4">
+                        <p class="text-gray-700 font-semibold">Totale da rimborsare: <span id="totaleRimborso" class="font-bold"></span> €</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="mutuo.js"></script>
+</body>
+</html> 
