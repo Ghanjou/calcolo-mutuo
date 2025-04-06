@@ -3,71 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalcolaMutuo - Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Calcolo Mutuo - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-100">
-    <!-- Navigation Bar -->
+<body class="bg-gray-50">
     <nav class="bg-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <a href="index.html" class="flex items-center">
-                        <div class="bg-blue-600 text-white font-bold text-xl p-2 rounded-lg">CM</div>
-                        <span class="ml-2 text-xl font-semibold text-gray-800">CalcolaMutuo</span>
-                    </a>
-                </div>
-                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <a href="mutuo.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        Calcola Mutuo
-                    </a>
-                    <a href="confronto.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        Confronto Affitto vs Acquisto
-                    </a>
-                    <a href="piano-ammortamento.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                        Piano di Ammortamento
-                    </a>
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="index.html" class="text-xl font-bold text-blue-600">Calcolo Mutuo</a>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="mutuo.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Calcola Mutuo
+                        </a>
+                        <a href="confronto.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Confronto Affitto vs Acquisto
+                        </a>
+                        <a href="piano-ammortamento.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Piano di Ammortamento
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 py-12">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">Benvenuto su CalcolaMutuo</h1>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <!-- Calcola Mutuo Card -->
-            <a href="mutuo.html" class="block">
-                <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow p-6 h-full">
-                    <div class="flex flex-col items-center">
-                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Calcola Mutuo</h2>
-                        <p class="text-gray-600 text-center">Calcola la rata mensile e il costo totale del tuo mutuo in pochi click</p>
-                    </div>
-                </div>
-            </a>
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Calcolo Mutuo</h1>
+                <p class="text-xl text-gray-600">Scegli lo strumento che fa per te</p>
+            </div>
 
-            <!-- Confronto Affitto vs Acquisto Card -->
-            <a href="confronto.html" class="block">
-                <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow p-6 h-full">
-                    <div class="flex flex-col items-center">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                            </svg>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <!-- Calcola Mutuo Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Calcola Mutuo</h3>
+                                <p class="text-sm text-gray-500">Calcola la rata del tuo mutuo</p>
+                            </div>
                         </div>
-                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Confronto Affitto vs Acquisto</h2>
-                        <p class="text-gray-600 text-center">Analizza e confronta i costi tra l'acquisto di una casa e l'affitto</p>
+                        <div class="mt-4">
+                            <p class="text-sm text-gray-600">Inserisci i dati del tuo mutuo per calcolare la rata mensile, il totale degli interessi e altre informazioni utili.</p>
+                        </div>
+                        <div class="mt-6">
+                            <a href="mutuo.html" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Vai al Calcolatore
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </a>
+
+                <!-- Confronto Affitto vs Acquisto Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Confronto Affitto vs Acquisto</h3>
+                                <p class="text-sm text-gray-500">Scopri cosa conviene di più</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-sm text-gray-600">Confronta i costi dell'acquisto di una casa con un mutuo rispetto all'affitto, considerando tutti i fattori rilevanti.</p>
+                        </div>
+                        <div class="mt-6">
+                            <a href="confronto.html" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                Vai al Confronto
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Piano di Ammortamento Card -->
+                <div class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="p-6">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                                <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Piano di Ammortamento</h3>
+                                <p class="text-sm text-gray-500">Visualizza il piano completo</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-sm text-gray-600">Scopri il piano di ammortamento dettagliato con le detrazioni fiscali del 19% per la prima casa e calcola il tuo risparmio.</p>
+                        </div>
+                        <div class="mt-6">
+                            <a href="piano-ammortamento.html" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                                Vai al Piano
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
 </body>
 </html> 
