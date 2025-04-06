@@ -12,10 +12,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const durata = parseInt(document.getElementById('durata').value);
         const speseAcquisto = parseFloat(document.getElementById('speseAcquisto').value);
 
+        // Validate inputs
+        if (percentualeMutuo < 0 || percentualeMutuo > 100) {
+            alert('La percentuale del mutuo deve essere tra 0 e 100');
+            return;
+        }
+        if (speseAcquisto < 0 || speseAcquisto > 100) {
+            alert('Le spese di acquisto devono essere tra 0 e 100');
+            return;
+        }
+        if (durata < 1 || durata > 40) {
+            alert('La durata deve essere tra 1 e 40 anni');
+            return;
+        }
+        if (tassoInteresse < 0 || tassoInteresse > 20) {
+            alert('Il tasso di interesse deve essere tra 0 e 20%');
+            return;
+        }
+
         // Calculate mortgage details
-        const importoMutuo = (costoTotale * percentualeMutuo) / 100;
+        const importoMutuo = costoTotale * (percentualeMutuo / 100);
         const anticipo = costoTotale - importoMutuo;
-        const speseAcquistoTotali = (costoTotale * speseAcquisto) / 100;
+        const speseTotali = costoTotale * (speseAcquisto / 100);
         
         // Convert annual interest rate to monthly
         const tassoMensile = (tassoInteresse / 100) / 12;
@@ -32,15 +50,38 @@ document.addEventListener('DOMContentLoaded', function() {
         const totaleRimborso = rataMensile * numeroRate;
         const totaleInteressi = totaleRimborso - importoMutuo;
 
+        // Save data to localStorage for the comparison calculator
+        const mutuoData = {
+            costoTotale: costoTotale,
+            percentualeMutuo: percentualeMutuo,
+            tassoInteresse: tassoInteresse,
+            durata: durata,
+            speseAcquisto: speseAcquisto,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('mutuoData', JSON.stringify(mutuoData));
+
         // Display results
-        document.getElementById('importoTotale').textContent = importoMutuo.toLocaleString('it-IT', {maximumFractionDigits: 2});
+        document.getElementById('importoMutuo').textContent = importoMutuo.toLocaleString('it-IT', {maximumFractionDigits: 2});
+        document.getElementById('anticipo').textContent = anticipo.toLocaleString('it-IT', {maximumFractionDigits: 2});
         document.getElementById('rataMensile').textContent = rataMensile.toLocaleString('it-IT', {maximumFractionDigits: 2});
         document.getElementById('totaleInteressi').textContent = totaleInteressi.toLocaleString('it-IT', {maximumFractionDigits: 2});
-        document.getElementById('totaleSpese').textContent = speseAcquistoTotali.toLocaleString('it-IT', {maximumFractionDigits: 2});
-        document.getElementById('totaleRimborso').textContent = (totaleRimborso + speseAcquistoTotali + anticipo).toLocaleString('it-IT', {maximumFractionDigits: 2});
+        document.getElementById('speseTotali').textContent = speseTotali.toLocaleString('it-IT', {maximumFractionDigits: 2});
+        document.getElementById('totaleRimborso').textContent = (totaleRimborso + speseTotali + anticipo).toLocaleString('it-IT', {maximumFractionDigits: 2});
 
         // Show results section
         risultati.classList.remove('hidden');
+
+        // Add link to comparison calculator
+        const confrontoLink = document.createElement('div');
+        confrontoLink.className = 'mt-4 text-center';
+        confrontoLink.innerHTML = `
+            <p class="text-gray-600 mb-2">Vuoi confrontare questi costi con l'affitto?</p>
+            <a href="confronto.html" class="inline-block bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                Vai al Confronto Affitto vs Acquisto
+            </a>
+        `;
+        risultati.appendChild(confrontoLink);
     });
 
     // Input validation
