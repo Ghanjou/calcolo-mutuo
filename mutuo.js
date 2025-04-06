@@ -1,6 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('mutuo-form');
     const risultati = document.getElementById('risultati');
+    const durataSlider = document.getElementById('durata');
+    const durataDisplay = document.getElementById('durataDisplay');
+
+    // Update duration display when slider moves
+    durataSlider.addEventListener('input', function() {
+        durataDisplay.textContent = this.value;
+    });
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -19,10 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (speseAcquisto < 0 || speseAcquisto > 100) {
             alert('Le spese di acquisto devono essere tra 0 e 100');
-            return;
-        }
-        if (durata < 1 || durata > 40) {
-            alert('La durata deve essere tra 1 e 40 anni');
             return;
         }
         if (tassoInteresse < 0 || tassoInteresse > 20) {
@@ -84,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         risultati.appendChild(confrontoLink);
     });
 
-    // Input validation
+    // Input validation for number inputs
     const inputs = form.querySelectorAll('input[type="number"]');
     inputs.forEach(input => {
         input.addEventListener('input', function() {
@@ -92,13 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (this.value > 100) this.value = 100;
                 if (this.value < 0) this.value = 0;
             }
-            if (this.id === 'durata') {
-                if (this.value > 40) this.value = 40;
-                if (this.value < 1) this.value = 1;
-            }
             if (this.id === 'tassoInteresse') {
                 if (this.value < 0) this.value = 0;
             }
         });
     });
-}); 
+});
