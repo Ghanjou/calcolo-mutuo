@@ -9,6 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
         durataDisplay.textContent = this.value;
     });
 
+    // Add click handlers for the duration markers
+    const durationMarkers = document.querySelectorAll('.form-group.space-y-2 span');
+    durationMarkers.forEach(marker => {
+        marker.addEventListener('click', function() {
+            const value = parseInt(this.textContent);
+            durataSlider.value = value;
+            durataDisplay.textContent = value;
+        });
+    });
+
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
