@@ -15,11 +15,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validazione input
         const importoMutuo = parseFloat(document.getElementById('importoMutuo').value);
         const tassoInteresse = parseFloat(document.getElementById('tassoInteresse').value);
-        const durata = parseInt(durataSlider.value);
+        const durata = parseInt(document.getElementById('durata').value);
         const primaCasa = document.getElementById('primaCasa').checked;
 
-        if (isNaN(importoMutuo) || isNaN(tassoInteresse) || isNaN(durata)) {
-            alert('Per favore, inserisci valori validi');
+        if (isNaN(importoMutuo) || importoMutuo <= 0) {
+            alert('Per favore, inserisci un importo del mutuo valido');
+            return;
+        }
+
+        if (isNaN(tassoInteresse) || tassoInteresse < 0 || tassoInteresse > 20) {
+            alert('Il tasso di interesse deve essere compreso tra 0 e 20%');
+            return;
+        }
+
+        if (isNaN(durata) || durata < 5 || durata > 40) {
+            alert('La durata del mutuo deve essere compresa tra 5 e 40 anni');
             return;
         }
 
