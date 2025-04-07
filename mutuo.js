@@ -1,6 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('mutuo-form');
     const risultati = document.getElementById('risultati');
+    const durataSlider = document.getElementById('durata');
+    const durataDisplay = document.getElementById('durataDisplay');
+
+    // Update duration display when slider moves
+    durataSlider.addEventListener('input', function() {
+        durataDisplay.textContent = this.value;
+    });
+
+    // Add click handlers for the duration markers
+    const durationMarkers = document.querySelectorAll('.form-group.space-y-2 span');
+    durationMarkers.forEach(marker => {
+        marker.addEventListener('click', function() {
+            const value = parseInt(this.textContent);
+            durataSlider.value = value;
+            durataDisplay.textContent = value;
+        });
+    });
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -23,10 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (tassoInteresse < 0 || tassoInteresse > 20) {
             alert('Il tasso di interesse deve essere tra 0 e 20%');
-            return;
-        }
-        if (durata < 1 || durata > 40) {
-            alert('La durata del mutuo deve essere tra 1 e 40 anni');
             return;
         }
 
@@ -83,10 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             if (this.id === 'tassoInteresse') {
                 if (this.value < 0) this.value = 0;
-            }
-            if (this.id === 'durata') {
-                if (this.value > 40) this.value = 40;
-                if (this.value < 1) this.value = 1;
             }
         });
     });
