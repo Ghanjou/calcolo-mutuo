@@ -47,8 +47,8 @@
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                         </div>
                         <div>
-                            <label for="tassoInteresse" class="block text-sm font-medium text-gray-700">Tasso di interesse annuo (%)</label>
-                            <input type="number" id="tassoInteresse" name="tassoInteresse" step="0.01" required
+                            <label for="tassoInteresse" class="block text-sm font-medium text-gray-700">Tasso di Interesse (%)</label>
+                            <input type="number" id="tassoInteresse" name="tassoInteresse" step="0.01" min="0" max="20" required
                                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                         </div>
                         <div>
@@ -65,9 +65,7 @@
                                 <span>35</span>
                                 <span>40</span>
                             </div>
-                            <div class="text-center mt-2">
-                                <span id="durataDisplay" class="font-medium">20</span> anni
-                            </div>
+                            <p class="mt-2 text-sm text-gray-500">Durata selezionata: <span id="durataDisplay">20</span> anni</p>
                         </div>
                         <div>
                             <label for="aliquotaIrpef" class="block text-sm font-medium text-gray-700">Aliquota IRPEF (%)</label>
@@ -120,6 +118,7 @@
                                     <th class="px-4 py-2 border bg-gray-100">Anno</th>
                                     <th class="px-4 py-2 border bg-gray-100">Interessi Passivi</th>
                                     <th class="px-4 py-2 border bg-gray-100">Risparmio Fiscale</th>
+                                    <th class="px-4 py-2 border bg-gray-100">Debito Residuo</th>
                                 </tr>
                             </thead>
                             <tbody id="tabellaAmmortamento" class="bg-white divide-y divide-gray-200">

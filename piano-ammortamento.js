@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const importoMutuo = parseFloat(document.getElementById('importoMutuo').value);
         const tassoInteresse = parseFloat(document.getElementById('tassoInteresse').value);
         const durata = parseInt(document.getElementById('durata').value);
-        const aliquotaIrpef = parseFloat(document.getElementById('aliquotaIrpef').value);
         const primaCasa = document.getElementById('primaCasa').checked;
 
         // Validate inputs
@@ -26,10 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (tassoInteresse < 0 || tassoInteresse > 20) {
             alert('Il tasso di interesse deve essere tra 0 e 20%');
-            return;
-        }
-        if (aliquotaIrpef < 0 || aliquotaIrpef > 100) {
-            alert('L\'aliquota IRPEF deve essere tra 0 e 100%');
             return;
         }
 
@@ -63,7 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 pianoAmmortamento.push({
                     anno: annoCorrente,
                     interessiPassivi: interessiAnnoCorrente,
-                    risparmioFiscale: risparmioFiscale
+                    risparmioFiscale: risparmioFiscale,
+                    debitoResiduo: capitaleResiduo
                 });
 
                 interessiAnnoCorrente = 0;
