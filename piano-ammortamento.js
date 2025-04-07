@@ -1,99 +1,89 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('pianoAmmortamentoForm');
-    const risultati = document.getElementById('risultati');
+    const results = document.getElementById('risultati');
     const durataSlider = document.getElementById('durata');
     const durataDisplay = document.getElementById('durataDisplay');
 
-    // Update duration display when slider moves
+    // Aggiorna il display della durata quando il cursore viene spostato
     durataSlider.addEventListener('input', function() {
         durataDisplay.textContent = this.value;
     });
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        // Get input values
+
+        // Validazione input
         const importoMutuo = parseFloat(document.getElementById('importoMutuo').value);
         const tassoInteresse = parseFloat(document.getElementById('tassoInteresse').value);
-        const durata = parseInt(document.getElementById('durata').value);
+        const durata = parseInt(durataSlider.value);
         const primaCasa = document.getElementById('primaCasa').checked;
 
-        // Validate inputs
-        if (importoMutuo <= 0) {
-            alert('L\'importo del mutuo deve essere maggiore di 0');
-            return;
-        }
-        if (tassoInteresse < 0 || tassoInteresse > 20) {
-            alert('Il tasso di interesse deve essere tra 0 e 20%');
+        if (isNaN(importoMutuo) || isNaN(tassoInteresse) || isNaN(durata)) {
+            alert('Per favore, inserisci valori validi');
             return;
         }
 
-        // Calculate amortization plan
-        let capitaleResiduo = importoMutuo;
-        let totaleInteressi = 0;
-        let pianoAmmortamento = [];
-        let interessiAnnoCorrente = 0;
-        let annoCorrente = 1;
-
-        // Calculate monthly payment
-        const tassoMensile = (tassoInteresse / 100) / 12;
+        // Calcolo rata mensile
+        const tassoMensile = tassoInteresse / 100 / 12;
         const numeroRate = durata * 12;
-        const rataMensile = importoMutuo * 
-            (tassoMensile * Math.pow(1 + tassoMensile, numeroRate)) / 
-            (Math.pow(1 + tassoMensile, numeroRate) - 1);
+        const rataMensile = importoMutuo * (tassoMensile * Math.pow(1 + tassoMensile, numeroRate)) / (Math.pow(1 + tassoMensile, numeroRate) - 1);
 
-        for (let i = 1; i <= numeroRate; i++) {
-            const interessi = capitaleResiduo * tassoMensile;
-            const quotaCapitale = rataMensile - interessi;
-            
-            capitaleResiduo -= quotaCapitale;
-            totaleInteressi += interessi;
-            interessiAnnoCorrente += interessi;
+        // Calcolo piano di ammortamento
+        let debitoResiduo = importoMutuo;
+        let totaleInteressi = 0;
+        let totaleRisparmioFiscale = 0;
+        const pianoAmmortamento = [];
 
-            // At the end of each year, add to the amortization plan
-            if (i % 12 === 0 || i === numeroRate) {
-                const interessiAnno = Math.min(interessiAnnoCorrente, 4000);
-                const risparmioFiscale = primaCasa ? interessiAnno * 0.19 : 0;
+        for (let anno = 1; anno <= durata; anno++) {
+            let interessiAnno = 0;
+            let capitaleRimborsatoAnno = 0;
 
-                pianoAmmortamento.push({
-                    anno: annoCorrente,
-                    interessiPassivi: interessiAnnoCorrente,
-                    risparmioFiscale: risparmioFiscale,
-                    debitoResiduo: capitaleResiduo
-                });
-
-                interessiAnnoCorrente = 0;
-                annoCorrente++;
+            for (let mese = 1; mese <= 12; mese++) {
+                const interessiMese = debitoResiduo * tassoMensile;
+                const capitaleMese = rataMensile - interessiMese;
+                
+                interessiAnno += interessiMese;
+                capitaleRimborsatoAnno += capitaleMese;
+                debitoResiduo -= capitaleMese;
             }
+
+            totaleInteressi += interessiAnno;
+            
+            // Calcolo risparmio fiscale (19% degli interessi, max 4000€ all'anno)
+            const baseDetrazione = Math.min(interessiAnno, 4000);
+            const risparmioFiscaleAnno = primaCasa ? baseDetrazione * 0.19 : 0;
+            totaleRisparmioFiscale += risparmioFiscaleAnno;
+
+            pianoAmmortamento.push({
+                anno,
+                interessiAnno,
+                risparmioFiscaleAnno,
+                debitoResiduo
+            });
         }
 
-        // Display results
-        document.getElementById('rataMensile').textContent = rataMensile.toLocaleString('it-IT', {maximumFractionDigits: 2}) + ' €';
-        document.getElementById('totaleInteressi').textContent = totaleInteressi.toLocaleString('it-IT', {maximumFractionDigits: 2}) + ' €';
+        // Aggiorna i risultati
+        document.getElementById('rataMensile').textContent = rataMensile.toFixed(2) + ' €';
+        document.getElementById('totaleInteressi').textContent = totaleInteressi.toFixed(2) + ' €';
+        document.getElementById('risparmioFiscaleAnnuo').textContent = (primaCasa ? '760,00' : '0,00') + ' €';
+        document.getElementById('risparmioFiscaleTotale').textContent = totaleRisparmioFiscale.toFixed(2) + ' €';
 
-        // Calculate and display tax savings
-        const maxRisparmioFiscaleAnnuo = primaCasa ? 4000 * 0.19 : 0;
-        const risparmioFiscaleTotale = pianoAmmortamento.reduce((sum, anno) => sum + anno.risparmioFiscale, 0);
-
-        document.getElementById('risparmioFiscaleAnnuo').textContent = maxRisparmioFiscaleAnnuo.toLocaleString('it-IT', {maximumFractionDigits: 2}) + ' €';
-        document.getElementById('risparmioFiscaleTotale').textContent = risparmioFiscaleTotale.toLocaleString('it-IT', {maximumFractionDigits: 2}) + ' €';
-
-        // Display amortization table
-        const tabellaAmmortamento = document.getElementById('tabellaAmmortamento');
-        tabellaAmmortamento.innerHTML = '';
-
+        // Aggiorna la tabella
+        const tabella = document.getElementById('tabellaAmmortamento');
+        tabella.innerHTML = '';
+        
         pianoAmmortamento.forEach(anno => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td class="px-4 py-2 border">${anno.anno}</td>
-                <td class="px-4 py-2 border">${anno.interessiPassivi.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
-                <td class="px-4 py-2 border">${anno.risparmioFiscale.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
+                <td class="px-4 py-2 border">${anno.interessiAnno.toFixed(2)} €</td>
+                <td class="px-4 py-2 border">${anno.risparmioFiscaleAnno.toFixed(2)} €</td>
+                <td class="px-4 py-2 border">${anno.debitoResiduo.toFixed(2)} €</td>
             `;
-            tabellaAmmortamento.appendChild(row);
+            tabella.appendChild(row);
         });
 
-        // Show results section
-        risultati.classList.remove('hidden');
+        results.classList.remove('hidden');
     });
 
     // Input validation for number inputs
