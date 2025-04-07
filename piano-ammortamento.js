@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let totaleInteressi = 0;
         let pianoAmmortamento = [];
         let interessiAnnoCorrente = 0;
-        let capitaleAnnoCorrente = 0;
         let annoCorrente = 1;
 
         // Calculate monthly payment
@@ -55,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
             capitaleResiduo -= quotaCapitale;
             totaleInteressi += interessi;
             interessiAnnoCorrente += interessi;
-            capitaleAnnoCorrente += quotaCapitale;
 
             // At the end of each year, add to the amortization plan
             if (i % 12 === 0 || i === numeroRate) {
@@ -65,14 +63,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 pianoAmmortamento.push({
                     anno: annoCorrente,
                     interessiPassivi: interessiAnnoCorrente,
-                    capitaleRimborsato: capitaleAnnoCorrente,
-                    rataMensile: rataMensile,
-                    debitoResiduo: capitaleResiduo,
                     risparmioFiscale: risparmioFiscale
                 });
 
                 interessiAnnoCorrente = 0;
-                capitaleAnnoCorrente = 0;
                 annoCorrente++;
             }
         }
@@ -98,9 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
             row.innerHTML = `
                 <td class="px-4 py-2 border">${anno.anno}</td>
                 <td class="px-4 py-2 border">${anno.interessiPassivi.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
-                <td class="px-4 py-2 border">${anno.capitaleRimborsato.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
-                <td class="px-4 py-2 border">${anno.rataMensile.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
-                <td class="px-4 py-2 border">${anno.debitoResiduo.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
                 <td class="px-4 py-2 border">${anno.risparmioFiscale.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
             `;
             tabellaAmmortamento.appendChild(row);
