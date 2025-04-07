@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // At the end of each year, add to the amortization plan
             if (i % 12 === 0 || i === numeroRate) {
                 const detrazione = primaCasa ? Math.min(interessiAnnoCorrente, 4000) * 0.19 : 0;
-                const risparmioFiscale = detrazione * (aliquotaIrpef / 100);
+                const risparmioFiscale = detrazione;
 
                 pianoAmmortamento.push({
                     anno: annoCorrente,
@@ -77,10 +77,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Calculate and display tax savings
         const maxDetrazioneAnnuo = primaCasa ? 4000 * 0.19 : 0;
-        const maxRisparmioFiscaleAnnuo = maxDetrazioneAnnuo * (aliquotaIrpef / 100);
         const risparmioFiscaleTotale = pianoAmmortamento.reduce((sum, anno) => sum + anno.risparmioFiscale, 0);
 
-        document.getElementById('risparmioFiscaleAnnuo').textContent = maxRisparmioFiscaleAnnuo.toLocaleString('it-IT', {maximumFractionDigits: 2}) + ' €';
+        document.getElementById('risparmioFiscaleAnnuo').textContent = maxDetrazioneAnnuo.toLocaleString('it-IT', {maximumFractionDigits: 2}) + ' €';
         document.getElementById('risparmioFiscaleTotale').textContent = risparmioFiscaleTotale.toLocaleString('it-IT', {maximumFractionDigits: 2}) + ' €';
 
         // Display amortization table
