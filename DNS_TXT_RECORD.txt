@@ -1,0 +1,16 @@
+TXT Record Configuration for GitHub Pages Domain Verification:
+
+Host/Name: _github-pages-challenge-Ghanjou
+Type: TXT
+Value: d137fcba7c9502410cc7d0822b9ddb
+TTL: 3600 (or default)
+
+Instructions:
+1. Log in to your domain registrar's website
+2. Go to DNS Management
+3. Add a new record with the above information
+4. Save the changes
+5. Wait for DNS propagation (usually 5-30 minutes)
+6. Return to GitHub repository settings to complete verification
+
+Note: After verification, GitHub will automatically set up the necessary DNS records for your domain. 
