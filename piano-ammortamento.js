@@ -91,10 +91,12 @@ document.addEventListener('DOMContentLoaded', function() {
         pianoAmmortamento.forEach(anno => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${anno.anno}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${anno.interessiPassivi.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${anno.detrazione.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${anno.risparmioFiscale.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
+                <td class="px-4 py-2 border">${anno.anno}</td>
+                <td class="px-4 py-2 border">${anno.interessiPassivi.toFixed(2)} €</td>
+                <td class="px-4 py-2 border">${anno.detrazione.toFixed(2)} €</td>
+                <td class="px-4 py-2 border">${rataMensile.toFixed(2)} €</td>
+                <td class="px-4 py-2 border">${capitaleResiduo.toFixed(2)} €</td>
+                <td class="px-4 py-2 border">${anno.risparmioFiscale.toFixed(2)} €</td>
             `;
             tabellaAmmortamento.appendChild(row);
         });
