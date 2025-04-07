@@ -33,19 +33,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Calculate amortization plan
+        let capitaleResiduo = importoMutuo;
+        let totaleInteressi = 0;
+        let pianoAmmortamento = [];
+        let interessiAnnoCorrente = 0;
+        let capitaleAnnoCorrente = 0;
+        let annoCorrente = 1;
+
         // Calculate monthly payment
         const tassoMensile = (tassoInteresse / 100) / 12;
         const numeroRate = durata * 12;
         const rataMensile = importoMutuo * 
             (tassoMensile * Math.pow(1 + tassoMensile, numeroRate)) / 
             (Math.pow(1 + tassoMensile, numeroRate) - 1);
-
-        // Calculate amortization plan
-        let capitaleResiduo = importoMutuo;
-        let totaleInteressi = 0;
-        let pianoAmmortamento = [];
-        let interessiAnnoCorrente = 0;
-        let annoCorrente = 1;
 
         for (let i = 1; i <= numeroRate; i++) {
             const interessi = capitaleResiduo * tassoMensile;
@@ -54,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             capitaleResiduo -= quotaCapitale;
             totaleInteressi += interessi;
             interessiAnnoCorrente += interessi;
+            capitaleAnnoCorrente += quotaCapitale;
 
             // At the end of each year, add to the amortization plan
             if (i % 12 === 0 || i === numeroRate) {
@@ -63,11 +65,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 pianoAmmortamento.push({
                     anno: annoCorrente,
                     interessiPassivi: interessiAnnoCorrente,
-                    detrazione: detrazione,
+                    capitaleRimborsato: capitaleAnnoCorrente,
+                    rataMensile: rataMensile,
+                    debitoResiduo: capitaleResiduo,
                     risparmioFiscale: risparmioFiscale
                 });
 
                 interessiAnnoCorrente = 0;
+                capitaleAnnoCorrente = 0;
                 annoCorrente++;
             }
         }
@@ -92,11 +97,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td class="px-4 py-2 border">${anno.anno}</td>
-                <td class="px-4 py-2 border">${anno.interessiPassivi.toFixed(2)} €</td>
-                <td class="px-4 py-2 border">${anno.detrazione.toFixed(2)} €</td>
-                <td class="px-4 py-2 border">${rataMensile.toFixed(2)} €</td>
-                <td class="px-4 py-2 border">${capitaleResiduo.toFixed(2)} €</td>
-                <td class="px-4 py-2 border">${anno.risparmioFiscale.toFixed(2)} €</td>
+                <td class="px-4 py-2 border">${anno.interessiPassivi.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
+                <td class="px-4 py-2 border">${anno.capitaleRimborsato.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
+                <td class="px-4 py-2 border">${anno.rataMensile.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
+                <td class="px-4 py-2 border">${anno.debitoResiduo.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
+                <td class="px-4 py-2 border">${anno.risparmioFiscale.toLocaleString('it-IT', {maximumFractionDigits: 2})} €</td>
             `;
             tabellaAmmortamento.appendChild(row);
         });
