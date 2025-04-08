@@ -52,8 +52,9 @@
         <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
             <form id="mutuo-form" class="space-y-6">
                 <div class="form-group">
-                    <label for="costoTotale" class="block text-sm font-medium text-gray-700">Costo totale dell'immobile (€)</label>
-                    <input type="number" id="costoTotale" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+                    <label for="costoTotale" class="block text-sm font-medium text-gray-700">Costo totale dell'immobile (€)*</label>
+                    <input type="number" id="costoTotale" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" min="5000" required>
+                    <p class="mt-1 text-sm text-gray-500">Minimo: 5.000 €</p>
                 </div>
 
                 <div class="form-group">

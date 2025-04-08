@@ -126,6 +126,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const durata = parseInt(document.getElementById('durata').value);
         const speseAcquisto = parseFloat(document.getElementById('speseAcquisto').value);
 
+        // Validate inputs
+        if (costoTotale < 5000) {
+            alert('Il costo totale dell\'immobile deve essere almeno 5.000 €');
+            return;
+        }
+
         // Get input values for property expenses
         const speseCondominialiAcquisto = parseFloat(document.getElementById('speseCondominialiAcquisto').value);
         const impostaCatastale = parseFloat(document.getElementById('impostaCatastale').value);
