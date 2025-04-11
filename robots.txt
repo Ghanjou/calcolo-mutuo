@@ -5,19 +5,24 @@ Allow: /mutuo.html
 Allow: /confronto.html
 Allow: /piano-ammortamento.html
 Allow: /articles.html
-Allow: /articles/
-Allow: /*.css
-Allow: /*.js
-Allow: /*.png
-Allow: /*.jpg
-Allow: /*.gif
-Allow: /*.ico
+Allow: /articles/cosa-e-un-mutuo.html
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.gif$
+Allow: /*.ico$
 
-Disallow: /articles/cosa-e-un-mutuo.html
 Disallow: /security.js
 Disallow: /config.js
 Disallow: /.htaccess
 Disallow: /.git/
 Disallow: /.env
+Disallow: /node_modules/
+Disallow: /package.json
+Disallow: /package-lock.json
 
-Sitemap: https://costomutuo.it/sitemap.xml 
+Sitemap: https://costomutuo.it/sitemap.xml
+
+# Crawl-delay: 10
+# Visit-time: 0600-2300 

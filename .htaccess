@@ -3,31 +3,27 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Proteggi i file sensibili
-<FilesMatch "^(\.htaccess|\.htpasswd|\.git|\.env|security\.js|config\.js)$">
+# Proteggi file sensibili
+<FilesMatch "^\.">
     Order allow,deny
     Deny from all
 </FilesMatch>
 
-# Intestazioni di sicurezza
+<FilesMatch "(\.htaccess|\.git|\.env|config\.js|security\.js)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Headers di sicurezza
 <IfModule mod_headers.c>
-    # Protezione XSS
     Header set X-XSS-Protection "1; mode=block"
-    
-    # Protezione clickjacking
     Header set X-Frame-Options "SAMEORIGIN"
-    
-    # Protezione MIME-type
     Header set X-Content-Type-Options "nosniff"
-    
-    # Referrer Policy
     Header set Referrer-Policy "strict-origin-when-cross-origin"
-    
-    # Content Security Policy
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; img-src 'self' data:; font-src 'self' data:; connect-src 'self'"
-    
-    # Permissions Policy
     Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # CSP Header
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.costomutuo.it;"
 </IfModule>
 
 # Compressione GZIP
@@ -41,6 +37,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     AddOutputFilterByType DEFLATE application/rss+xml
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
 </IfModule>
 
 # Cache Control
@@ -50,25 +47,41 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
     ExpiresByType text/javascript "access plus 1 month"
     ExpiresByType application/x-javascript "access plus 1 month"
-    ExpiresByType text/html "access plus 1 day"
-    ExpiresByType application/xhtml+xml "access plus 1 day"
+    ExpiresByType text/html "access plus 1 week"
+    ExpiresByType application/xhtml+xml "access plus 1 week"
 </IfModule>
 
-# Disabilita directory listing
+# Directory Listing
 Options -Indexes
 
-# Proteggi da accesso diretto ai file PHP
+# PHP Handler
 <FilesMatch "\.php$">
-    Order Allow,Deny
-    Deny from all
+    SetHandler application/x-httpd-php
 </FilesMatch>
 
-# Permetti l'accesso solo ai file necessari
-<FilesMatch "^(index\.html|mutuo\.html|confronto\.html|piano-ammortamento\.html|articles\.html|.*\.css|.*\.js|.*\.png|.*\.jpg|.*\.gif|.*\.ico)$">
+# Whitelist per file pubblici
+<FilesMatch "\.(html|css|js|png|jpg|jpeg|gif|ico|xml|txt)$">
     Order Allow,Deny
     Allow from all
-</FilesMatch> 
+</FilesMatch>
+
+# Redirect errori
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+
+# Prevenzione hotlinking
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^https?://(www\.)?costomutuo\.it [NC]
+RewriteRule \.(jpg|jpeg|png|gif)$ - [F]
+
+# URL rewriting per SEO
+RewriteRule ^mutuo/?$ mutuo.html [L]
+RewriteRule ^confronto/?$ confronto.html [L]
+RewriteRule ^piano-ammortamento/?$ piano-ammortamento.html [L]
+RewriteRule ^articoli/?$ articles.html [L]
+RewriteRule ^articoli/cosa-e-un-mutuo/?$ articles/cosa-e-un-mutuo.html [L] 
