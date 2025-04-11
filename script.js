@@ -284,4 +284,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Exemple de fonction de validation
+    function validateForm(event) {
+        const input = document.getElementById('importoMutuo');
+        const value = parseFloat(input.value);
+        
+        if (isNaN(value) || value < 0) {
+            alert('Inserire un importo valido');
+            return false;
+        }
+        
+        // Nettoyer les données
+        input.value = value.toFixed(2);
+        return true;
+    }
+
+    // Configuration des cookies sécurisés
+    document.cookie = "session=value; Secure; HttpOnly; SameSite=Strict";
+
+    // Exemple de fonction pour nettoyer les données sensibles
+    function cleanUserData() {
+        localStorage.clear();
+        sessionStorage.clear();
+        // Nettoyer autres données sensibles
+    }
+
+    // Appeler lors de la fermeture de session
+    window.addEventListener('unload', cleanUserData);
 }); 

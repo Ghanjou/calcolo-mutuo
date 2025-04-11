@@ -1,4 +1,23 @@
 User-agent: *
 Allow: /
+Allow: /index.html
+Allow: /mutuo.html
+Allow: /confronto.html
+Allow: /piano-ammortamento.html
+Allow: /articles.html
+Allow: /articles/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.gif
+Allow: /*.ico
+
+Disallow: /articles/cosa-e-un-mutuo.html
+Disallow: /security.js
+Disallow: /config.js
+Disallow: /.htaccess
+Disallow: /.git/
+Disallow: /.env
 
 Sitemap: https://costomutuo.it/sitemap.xml 

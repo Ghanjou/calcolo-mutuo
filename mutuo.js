@@ -1,8 +1,18 @@
+import Security from './security.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('mutuo-form');
     const risultati = document.getElementById('risultati');
     const durataSlider = document.getElementById('durata');
     const durataDisplay = document.getElementById('durataDisplay');
+
+    // Aggiungi token CSRF al form
+    const csrfToken = Security.generateCsrfToken();
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '_csrf';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
 
     // Update duration display when slider moves
     durataSlider.addEventListener('input', function() {
@@ -23,29 +33,36 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
 
         // Get input values
-        const costoTotale = parseFloat(document.getElementById('costoTotale').value);
-        const percentualeMutuo = parseFloat(document.getElementById('percentualeMutuo').value);
-        const tassoInteresse = parseFloat(document.getElementById('tassoInteresse').value);
-        const durata = parseInt(document.getElementById('durata').value);
-        const speseAcquisto = parseFloat(document.getElementById('speseAcquisto').value);
+        const formData = {
+            costoTotale: document.getElementById('costoTotale').value,
+            percentualeMutuo: document.getElementById('percentualeMutuo').value,
+            tassoInteresse: document.getElementById('tassoInteresse').value,
+            durata: document.getElementById('durata').value,
+            speseAcquisto: document.getElementById('speseAcquisto').value
+        };
 
-        // Validate inputs
-        if (costoTotale < 5000) {
-            alert('Il costo totale dell\'immobile deve essere almeno 5.000 €');
+        // Validazione form
+        const validation = Security.validateForm(formData);
+        if (!validation.isValid) {
+            alert(validation.errors.join('\n'));
             return;
         }
-        if (percentualeMutuo < 0 || percentualeMutuo > 100) {
-            alert('La percentuale del mutuo deve essere tra 0 e 100');
-            return;
-        }
-        if (speseAcquisto < 0 || speseAcquisto > 100) {
-            alert('Le spese di acquisto devono essere tra 0 e 100');
-            return;
-        }
-        if (tassoInteresse < 0 || tassoInteresse > 20) {
-            alert('Il tasso di interesse deve essere tra 0 e 20%');
-            return;
-        }
+
+        // Sanitizza i dati
+        const sanitizedData = {
+            costoTotale: Security.sanitizeInput(formData.costoTotale),
+            percentualeMutuo: Security.sanitizeInput(formData.percentualeMutuo),
+            tassoInteresse: Security.sanitizeInput(formData.tassoInteresse),
+            durata: Security.sanitizeInput(formData.durata),
+            speseAcquisto: Security.sanitizeInput(formData.speseAcquisto)
+        };
+
+        // Converti in numeri
+        const costoTotale = parseFloat(sanitizedData.costoTotale);
+        const percentualeMutuo = parseFloat(sanitizedData.percentualeMutuo);
+        const tassoInteresse = parseFloat(sanitizedData.tassoInteresse);
+        const durata = parseInt(sanitizedData.durata);
+        const speseAcquisto = parseFloat(sanitizedData.speseAcquisto);
 
         // Calculate mortgage details
         const importoMutuo = costoTotale * (percentualeMutuo / 100);
@@ -67,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const totaleRimborso = rataMensile * numeroRate;
         const totaleInteressi = totaleRimborso - importoMutuo;
 
-        // Save data to localStorage for the comparison calculator
+        // Salva i dati in modo sicuro
         const mutuoData = {
             costoTotale: costoTotale,
             percentualeMutuo: percentualeMutuo,
@@ -76,15 +93,20 @@ document.addEventListener('DOMContentLoaded', function() {
             speseAcquisto: speseAcquisto,
             timestamp: new Date().toISOString()
         };
-        localStorage.setItem('mutuoData', JSON.stringify(mutuoData));
+
+        try {
+            localStorage.setItem('mutuoData', JSON.stringify(mutuoData));
+        } catch (error) {
+            console.error('Errore nel salvataggio dei dati:', error);
+        }
 
         // Display results
-        document.getElementById('importoMutuo').textContent = importoMutuo.toLocaleString('it-IT', {maximumFractionDigits: 2});
-        document.getElementById('anticipo').textContent = anticipo.toLocaleString('it-IT', {maximumFractionDigits: 2});
-        document.getElementById('rataMensile').textContent = rataMensile.toLocaleString('it-IT', {maximumFractionDigits: 2});
-        document.getElementById('totaleInteressi').textContent = totaleInteressi.toLocaleString('it-IT', {maximumFractionDigits: 2});
-        document.getElementById('speseTotali').textContent = speseTotali.toLocaleString('it-IT', {maximumFractionDigits: 2});
-        document.getElementById('totaleRimborso').textContent = (totaleRimborso + speseTotali + anticipo).toLocaleString('it-IT', {maximumFractionDigits: 2});
+        document.getElementById('importoMutuo').textContent = Security.escapeHtml(importoMutuo.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+        document.getElementById('anticipo').textContent = Security.escapeHtml(anticipo.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+        document.getElementById('rataMensile').textContent = Security.escapeHtml(rataMensile.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+        document.getElementById('totaleInteressi').textContent = Security.escapeHtml(totaleInteressi.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+        document.getElementById('speseTotali').textContent = Security.escapeHtml(speseTotali.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+        document.getElementById('totaleRimborso').textContent = Security.escapeHtml((totaleRimborso + speseTotali + anticipo).toLocaleString('it-IT', {maximumFractionDigits: 2}));
 
         // Show results section
         risultati.classList.remove('hidden');
@@ -103,4 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Pulizia dati sensibili alla chiusura della pagina
+    window.addEventListener('beforeunload', Security.cleanSensitiveData);
 });
