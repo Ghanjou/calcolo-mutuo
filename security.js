@@ -79,7 +79,4 @@ const Security = {
             errors: errors
         };
     }
-};
-
-// Esporta il modulo
-export default Security; 
+}; 
