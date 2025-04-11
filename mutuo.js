@@ -1,5 +1,3 @@
-import Security from './security.js';
-
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('mutuo-form');
     const risultati = document.getElementById('risultati');
