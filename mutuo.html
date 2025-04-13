@@ -14,6 +14,8 @@
     <title>Simulazione Mutuo Online | Calcola la Rata - CostoMutuo.it</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8400829562690526" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-100">
     <!-- Navigation Bar -->
@@ -48,31 +50,44 @@
 
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-8">
+        <!-- Ad Banner - Top -->
+        <div class="max-w-7xl mx-auto mb-8">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-8400829562690526"
+                 data-ad-slot="YOUR_AD_SLOT_ID"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
         <h1 class="text-3xl font-bold text-center mb-8">Simulazione Mutuo Online: Calcola la Rata</h1>
 
         <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
             <form id="mutuo-form" class="space-y-6">
                 <div class="form-group">
                     <label for="costoTotale" class="block text-sm font-medium text-gray-700">Costo totale dell'immobile (€)*</label>
-                    <input type="number" id="costoTotale" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" min="5000" required>
+                    <input type="number" id="costoTotale" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" min="5000" required>
                     <p class="mt-1 text-sm text-gray-500">Minimo: 5.000 €</p>
                 </div>
 
                 <div class="form-group">
                     <label for="percentualeMutuo" class="block text-sm font-medium text-gray-700">Percentuale del mutuo (%)</label>
-                    <input type="number" id="percentualeMutuo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" min="0" max="100" required>
+                    <input type="number" id="percentualeMutuo" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" min="0" max="100" required>
                 </div>
 
                 <div>
                     <label for="tassoInteresse" class="block text-sm font-medium text-gray-700">Tasso di Interesse (%)</label>
                     <input type="number" id="tassoInteresse" name="tassoInteresse" step="0.1" required
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                 </div>
 
                 <div class="form-group space-y-2">
                     <label for="durata" class="block text-sm font-medium text-gray-700">Durata del mutuo: <span id="durataDisplay" class="font-semibold">20</span> anni</label>
                     <input type="range" id="durata" 
-                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600" 
+                           class="form-input w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600" 
                            min="5" max="40" step="5" value="20" required>
                     <div class="flex justify-between text-xs text-gray-600 px-1">
                         <span class="cursor-pointer hover:text-blue-600" onclick="document.getElementById('durata').value=5;document.getElementById('durata').dispatchEvent(new Event('input'))">5</span>
@@ -88,13 +103,26 @@
 
                 <div class="form-group">
                     <label for="speseAcquisto" class="block text-sm font-medium text-gray-700">Spese di acquisto (tasse, notaio, ecc.) (%)</label>
-                    <input type="number" id="speseAcquisto" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value="10" min="0" max="100" required>
+                    <input type="number" id="speseAcquisto" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value="10" min="0" max="100" required>
                 </div>
 
                 <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                     Simula Mutuo
                 </button>
             </form>
+
+            <!-- Ad Banner - Middle -->
+            <div class="my-8">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-8400829562690526"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
 
             <div id="risultati" class="mt-8 hidden">
                 <h2 class="text-xl font-semibold mb-4 text-gray-800">Risultati del calcolo</h2>
@@ -125,6 +153,19 @@
                     </a>
                 </div>
             </div>
+        </div>
+
+        <!-- Ad Banner - Bottom -->
+        <div class="max-w-7xl mx-auto mt-8">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-8400829562690526"
+                 data-ad-slot="YOUR_AD_SLOT_ID"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
 
         <div class="max-w-2xl mx-auto mt-8 bg-gray-50 border border-gray-200 rounded-lg p-4">

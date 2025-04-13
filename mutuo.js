@@ -135,8 +135,11 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('speseTotali').textContent = Security.escapeHtml(speseTotali.toLocaleString('it-IT', {maximumFractionDigits: 2}));
             document.getElementById('totaleRimborso').textContent = Security.escapeHtml((totaleRimborso + speseTotali + anticipo).toLocaleString('it-IT', {maximumFractionDigits: 2}));
 
-            // Show results section
+            // Show results section with animation
             risultati.classList.remove('hidden');
+            setTimeout(() => {
+                risultati.classList.add('show');
+            }, 10);
             console.log('Risultati mostrati con successo');
 
         } catch (error) {

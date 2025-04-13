@@ -1,6 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('mutuo-form');
+    console.log('DOM caricato, inizializzazione form...');
+    
+    const form = document.getElementById('confronto-form');
     const risultati = document.getElementById('risultati');
+    const durataSlider = document.getElementById('durata');
+    const durataDisplay = document.getElementById('durataDisplay');
+
+    if (!form || !risultati || !durataSlider || !durataDisplay) {
+        console.error('Elementi del form non trovati!');
+        return;
+    }
+
+    // Update duration display when slider moves
+    durataSlider.addEventListener('input', function() {
+        durataDisplay.textContent = this.value;
+    });
+
+    // Add click handlers for the duration markers
+    const durationMarkers = document.querySelectorAll('.form-group.space-y-2 span');
+    durationMarkers.forEach(marker => {
+        marker.addEventListener('click', function() {
+            const value = parseInt(this.textContent);
+            durataSlider.value = value;
+            durataDisplay.textContent = value;
+        });
+    });
+
     let costsChart = null;
 
     // Add button click handler to load mortgage data
