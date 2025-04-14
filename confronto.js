@@ -215,6 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const anni = durata;
             const mesi = anni * 12;
 
+            // Calculate total rent cost with annual increase
             for (let i = 0; i < mesi; i++) {
                 if (i > 0 && i % 12 === 0) {
                     affittoCorrente *= (1 + aumentoAnnualeAffitto / 100);
@@ -222,14 +223,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 totaleAffitto += affittoCorrente;
             }
 
-            // Calcola il valore residuo dell'immobile
-            const valoreResiduo = costoTotale * Math.pow(1 + 0.02, anni); // 2% di apprezzamento annuo
+            // Calcola il valore residuo dell'immobile (apprezzamento del 2% annuo)
+            const valoreResiduo = costoTotale * Math.pow(1 + 0.02, anni);
 
             // Calcola il costo netto dell'acquisto
+            // Include: anticipo + spese di acquisto + totale rimborso - valore residuo
             const costoNettoAcquisto = anticipo + speseTotali + totaleRimborso - valoreResiduo;
 
-            // Calcola la differenza
-            const differenza = costoNettoAcquisto - totaleAffitto;
+            // Calcola la differenza (positiva se l'affitto è più conveniente)
+            const differenza = totaleAffitto - costoNettoAcquisto;
 
             console.log('Calcoli completati:', {
                 importoMutuo,
@@ -254,11 +256,11 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('totaleAffitto').textContent = Security.escapeHtml(totaleAffitto.toLocaleString('it-IT', {maximumFractionDigits: 2}));
             document.getElementById('valoreResiduo').textContent = Security.escapeHtml(valoreResiduo.toLocaleString('it-IT', {maximumFractionDigits: 2}));
             document.getElementById('costoNettoAcquisto').textContent = Security.escapeHtml(costoNettoAcquisto.toLocaleString('it-IT', {maximumFractionDigits: 2}));
-            document.getElementById('differenza').textContent = Security.escapeHtml(differenza.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('differenza').textContent = Security.escapeHtml(Math.abs(differenza).toLocaleString('it-IT', {maximumFractionDigits: 2}));
 
             // Update the recommendation
             const raccomandazione = document.getElementById('raccomandazione');
-            if (differenza < 0) {
+            if (differenza > 0) {
                 raccomandazione.textContent = "L'acquisto è più conveniente dell'affitto.";
                 raccomandazione.className = "text-green-600 font-semibold";
             } else {
