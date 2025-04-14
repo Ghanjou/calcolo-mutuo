@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM caricato, inizializzazione form...');
     
-    const form = document.getElementById('confronto-form');
+    const form = document.getElementById('mutuo-form');
     const risultati = document.getElementById('risultati');
     const durataSlider = document.getElementById('durata');
     const durataDisplay = document.getElementById('durataDisplay');
@@ -154,7 +154,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 durata: document.getElementById('durata').value,
                 speseAcquisto: document.getElementById('speseAcquisto').value,
                 affittoMensile: document.getElementById('affittoMensile').value,
-                aumentoAnnualeAffitto: document.getElementById('aumentoAnnualeAffitto').value
+                aumentoAnnuoAffitto: document.getElementById('aumentoAnnuoAffitto').value,
+                // Proprietà
+                speseCondominialiAcquisto: document.getElementById('speseCondominialiAcquisto').value,
+                impostaCatastale: document.getElementById('impostaCatastale').value,
+                assicurazioneCasa: document.getElementById('assicurazioneCasa').value,
+                manutenzioneStraordinaria: document.getElementById('manutenzioneStraordinaria').value,
+                // Affitto
+                speseCondominiali: document.getElementById('speseCondominiali').value,
+                speseRiscaldamento: document.getElementById('speseRiscaldamento').value,
+                tari: document.getElementById('tari').value
             };
 
             console.log('Dati form:', formData);
@@ -168,15 +177,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Sanitizza i dati
-            const sanitizedData = {
-                costoTotale: Security.sanitizeInput(formData.costoTotale),
-                percentualeMutuo: Security.sanitizeInput(formData.percentualeMutuo),
-                tassoInteresse: Security.sanitizeInput(formData.tassoInteresse),
-                durata: Security.sanitizeInput(formData.durata),
-                speseAcquisto: Security.sanitizeInput(formData.speseAcquisto),
-                affittoMensile: Security.sanitizeInput(formData.affittoMensile),
-                aumentoAnnualeAffitto: Security.sanitizeInput(formData.aumentoAnnualeAffitto)
-            };
+            const sanitizedData = {};
+            for (const [key, value] of Object.entries(formData)) {
+                sanitizedData[key] = Security.sanitizeInput(value);
+            }
 
             console.log('Dati sanitizzati:', sanitizedData);
 
@@ -187,7 +191,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const durata = parseInt(sanitizedData.durata);
             const speseAcquisto = parseFloat(sanitizedData.speseAcquisto);
             const affittoMensile = parseFloat(sanitizedData.affittoMensile);
-            const aumentoAnnualeAffitto = parseFloat(sanitizedData.aumentoAnnualeAffitto);
+            const aumentoAnnualeAffitto = parseFloat(sanitizedData.aumentoAnnuoAffitto);
+            const speseCondominialiAcquisto = parseFloat(sanitizedData.speseCondominialiAcquisto);
+            const impostaCatastale = parseFloat(sanitizedData.impostaCatastale);
+            const assicurazioneCasa = parseFloat(sanitizedData.assicurazioneCasa);
+            const manutenzioneStraordinaria = parseFloat(sanitizedData.manutenzioneStraordinaria);
+            const speseCondominiali = parseFloat(sanitizedData.speseCondominiali);
+            const speseRiscaldamento = parseFloat(sanitizedData.speseRiscaldamento);
+            const tari = parseFloat(sanitizedData.tari);
 
             // Calcola i costi dell'acquisto
             const importoMutuo = costoTotale * (percentualeMutuo / 100);
@@ -226,12 +237,28 @@ document.addEventListener('DOMContentLoaded', function() {
             // Calcola il valore residuo dell'immobile (apprezzamento del 2% annuo)
             const valoreResiduo = costoTotale * Math.pow(1 + 0.02, anni);
 
+            // Calcola i costi ricorrenti della proprietà
+            const totaleSpeseCondominialiAcquisto = speseCondominialiAcquisto * mesi;
+            const totaleImpostaCatastale = impostaCatastale * anni;
+            const totaleAssicurazione = assicurazioneCasa * anni;
+            const totaleManutenzione = manutenzioneStraordinaria * anni;
+
+            // Calcola i costi ricorrenti dell'affitto
+            const totaleSpeseCondominiali = speseCondominiali * mesi;
+            const totaleRiscaldamento = speseRiscaldamento * mesi;
+            const totaleTari = tari * anni;
+
             // Calcola il costo netto dell'acquisto
-            // Include: anticipo + spese di acquisto + totale rimborso - valore residuo
-            const costoNettoAcquisto = anticipo + speseTotali + totaleRimborso - valoreResiduo;
+            const costoNettoAcquisto = anticipo + speseTotali + totaleRimborso + 
+                                     totaleSpeseCondominialiAcquisto + totaleImpostaCatastale + 
+                                     totaleAssicurazione + totaleManutenzione - valoreResiduo;
+
+            // Calcola il costo totale dell'affitto
+            const costoNettoAffitto = totaleAffitto + totaleSpeseCondominiali + 
+                                    totaleRiscaldamento + totaleTari;
 
             // Calcola la differenza (positiva se l'affitto è più conveniente)
-            const differenza = totaleAffitto - costoNettoAcquisto;
+            const differenza = costoNettoAffitto - costoNettoAcquisto;
 
             console.log('Calcoli completati:', {
                 importoMutuo,
@@ -243,29 +270,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 totaleAffitto,
                 valoreResiduo,
                 costoNettoAcquisto,
+                costoNettoAffitto,
                 differenza
             });
 
             // Display results
-            document.getElementById('importoMutuo').textContent = Security.escapeHtml(importoMutuo.toLocaleString('it-IT', {maximumFractionDigits: 2}));
-            document.getElementById('anticipo').textContent = Security.escapeHtml(anticipo.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('importoTotale').textContent = Security.escapeHtml(importoMutuo.toLocaleString('it-IT', {maximumFractionDigits: 2}));
             document.getElementById('rataMensile').textContent = Security.escapeHtml(rataMensile.toLocaleString('it-IT', {maximumFractionDigits: 2}));
             document.getElementById('totaleInteressi').textContent = Security.escapeHtml(totaleInteressi.toLocaleString('it-IT', {maximumFractionDigits: 2}));
-            document.getElementById('speseTotali').textContent = Security.escapeHtml(speseTotali.toLocaleString('it-IT', {maximumFractionDigits: 2}));
-            document.getElementById('totaleRimborso').textContent = Security.escapeHtml(totaleRimborso.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('totaleSpese').textContent = Security.escapeHtml(speseTotali.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('speseCondAcquistoDisplay').textContent = Security.escapeHtml(speseCondominialiAcquisto.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('imuDisplay').textContent = Security.escapeHtml(impostaCatastale.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('assicurazioneDisplay').textContent = Security.escapeHtml(assicurazioneCasa.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('manutenzioneDisplay').textContent = Security.escapeHtml(manutenzioneStraordinaria.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('totaleCostiProprieta').textContent = Security.escapeHtml(costoNettoAcquisto.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+
+            document.getElementById('affittoInizialeDisplay').textContent = Security.escapeHtml(affittoMensile.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('affittoFinaleDisplay').textContent = Security.escapeHtml(affittoCorrente.toLocaleString('it-IT', {maximumFractionDigits: 2}));
             document.getElementById('totaleAffitto').textContent = Security.escapeHtml(totaleAffitto.toLocaleString('it-IT', {maximumFractionDigits: 2}));
-            document.getElementById('valoreResiduo').textContent = Security.escapeHtml(valoreResiduo.toLocaleString('it-IT', {maximumFractionDigits: 2}));
-            document.getElementById('costoNettoAcquisto').textContent = Security.escapeHtml(costoNettoAcquisto.toLocaleString('it-IT', {maximumFractionDigits: 2}));
-            document.getElementById('differenza').textContent = Security.escapeHtml(Math.abs(differenza).toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('speseCondDisplay').textContent = Security.escapeHtml(speseCondominiali.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('riscaldamentoDisplay').textContent = Security.escapeHtml(speseRiscaldamento.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('tariDisplay').textContent = Security.escapeHtml(tari.toLocaleString('it-IT', {maximumFractionDigits: 2}));
+            document.getElementById('costoTotaleAffitto').textContent = Security.escapeHtml(costoNettoAffitto.toLocaleString('it-IT', {maximumFractionDigits: 2}));
 
             // Update the recommendation
-            const raccomandazione = document.getElementById('raccomandazione');
+            const confrontoFinale = document.getElementById('confrontoFinale');
+            const confrontoMensile = document.getElementById('confrontoMensile');
+            
             if (differenza > 0) {
-                raccomandazione.textContent = "L'acquisto è più conveniente dell'affitto.";
-                raccomandazione.className = "text-green-600 font-semibold";
+                confrontoFinale.innerHTML = `<p class="text-green-600">L'acquisto è più conveniente dell'affitto di <span class="font-bold">${Math.abs(differenza).toLocaleString('it-IT', {maximumFractionDigits: 2})} €</span> nel periodo considerato.</p>`;
+                confrontoMensile.innerHTML = `<p>La rata mensile del mutuo (${rataMensile.toLocaleString('it-IT', {maximumFractionDigits: 2})} €) è inferiore all'affitto mensile iniziale (${affittoMensile.toLocaleString('it-IT', {maximumFractionDigits: 2})} €).</p>`;
             } else {
-                raccomandazione.textContent = "L'affitto è più conveniente dell'acquisto.";
-                raccomandazione.className = "text-blue-600 font-semibold";
+                confrontoFinale.innerHTML = `<p class="text-blue-600">L'affitto è più conveniente dell'acquisto di <span class="font-bold">${Math.abs(differenza).toLocaleString('it-IT', {maximumFractionDigits: 2})} €</span> nel periodo considerato.</p>`;
+                confrontoMensile.innerHTML = `<p>La rata mensile del mutuo (${rataMensile.toLocaleString('it-IT', {maximumFractionDigits: 2})} €) è superiore all'affitto mensile iniziale (${affittoMensile.toLocaleString('it-IT', {maximumFractionDigits: 2})} €).</p>`;
             }
 
             // Show results section with animation
@@ -280,7 +317,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const buyingCosts = years.map(year => {
                 const ratePagate = Math.min(year * 12, numeroRate);
                 const valoreResiduoAnno = costoTotale * Math.pow(1 + 0.02, year);
-                return anticipo + speseTotali + (rataMensile * ratePagate) - valoreResiduoAnno;
+                const speseCondAnno = speseCondominialiAcquisto * year * 12;
+                const impostaAnno = impostaCatastale * year;
+                const assicurazioneAnno = assicurazioneCasa * year;
+                const manutenzioneAnno = manutenzioneStraordinaria * year;
+                return anticipo + speseTotali + (rataMensile * ratePagate) + 
+                       speseCondAnno + impostaAnno + assicurazioneAnno + 
+                       manutenzioneAnno - valoreResiduoAnno;
             });
 
             const rentingCosts = years.map(year => {
@@ -292,7 +335,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     totale += affittoCorrente;
                 }
-                return totale;
+                const speseCondAnno = speseCondominiali * year * 12;
+                const riscaldamentoAnno = speseRiscaldamento * year * 12;
+                const tariAnno = tari * year;
+                return totale + speseCondAnno + riscaldamentoAnno + tariAnno;
             });
 
             // Update the chart
@@ -308,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const inputs = form.querySelectorAll('input[type="number"]');
     inputs.forEach(input => {
         input.addEventListener('input', function() {
-            if (this.id === 'percentualeMutuo' || this.id === 'speseAcquisto' || this.id === 'aumentoAnnualeAffitto') {
+            if (this.id === 'percentualeMutuo' || this.id === 'speseAcquisto' || this.id === 'aumentoAnnuoAffitto') {
                 if (this.value > 100) this.value = 100;
                 if (this.value < 0) this.value = 0;
             }
